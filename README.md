@@ -60,5 +60,6 @@ vercel env pull .env.local
 ```
 app/                  # Next.js App Router pages & layouts
 lib/supabase/         # Supabase client helpers (browser + server)
-middleware.ts         # Supabase session refresh (must stay at project root for Vercel Edge)
 ```
+
+> **Note:** Supabase auth middleware is added when login/signup is implemented. Edge middleware with `@supabase/ssr` currently causes `__dirname` errors on Vercel; server/browser clients work without it for data access.
