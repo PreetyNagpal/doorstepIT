@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# doorstep-it
 
-## Getting Started
+Next.js App Router application for [doorstepIT](https://www.doorstepit.com.au).
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+| Layer | Service |
+|-------|---------|
+| Framework | [Next.js 16](https://nextjs.org) (App Router, Turbopack) |
+| Database & Auth | [Supabase](https://supabase.com/dashboard/project/fauryebsvgmwogrkuoxk) |
+| Hosting | [Vercel](https://vercel.com/aceai-webapp/doorstep-it) (`aceai-webapp/doorstep-it`) |
+| Source control | [GitHub](https://github.com/PreetyNagpal/doorstepIT) |
+
+## Pipeline
+
+```
+Local dev  →  git push (main)  →  GitHub  →  Vercel build & deploy  →  www.doorstepit.com.au
+                    ↓
+              Supabase (Postgres, Auth, Storage)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Push to `main`** triggers a Vercel production deployment automatically.
+- **Preview deployments** are created for other branches and pull requests.
+- Environment variables are managed in the [Vercel dashboard](https://vercel.com/aceai-webapp/doorstep-it/settings/environment-variables). Never commit secrets.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Local setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Requirements:** Node.js 20+
 
-## Learn More
+```bash
+# Install dependencies
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# Copy env template and fill in values from Vercel / Supabase dashboards
+cp .env.example .env.local
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Start dev server
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000).
 
-## Deploy on Vercel
+To sync env vars from Vercel (after `vercel link`):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+vercel env pull .env.local
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Production build |
+| `npm run start` | Run production build locally |
+| `npm run lint` | Run ESLint |
+
+## Project structure
+
+```
+app/                  # Next.js App Router pages & layouts
+lib/supabase/         # Supabase client helpers (browser + server)
+middleware.ts         # Supabase session refresh (must stay at project root for Vercel Edge)
+```
