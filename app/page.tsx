@@ -22,8 +22,10 @@ export default function Home() {
           src="/logo.png"
           alt="Doorstep IT"
           width={710}
-          height={132}
-          className="h-auto w-56 sm:w-72"
+          height={130}
+          decoding="async"
+          className="h-auto w-56 max-w-full object-contain sm:w-80"
+          style={{ aspectRatio: "710 / 130" }}
         />
 
         <p className="mt-10 text-xs font-semibold uppercase tracking-[0.2em] text-brand-teal">
